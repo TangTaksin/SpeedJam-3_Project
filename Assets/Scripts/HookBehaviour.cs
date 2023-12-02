@@ -19,7 +19,7 @@ public class HookBehaviour : MonoBehaviour
     Vector2 distanceFromPlayer;
     Vector2 distanceFromTarget;
 
-    enum HookState {Out, Pull, Return, Idle}
+    enum HookState { Out, Pull, Return, Idle }
     HookState currentHookState = HookState.Idle;
 
     public delegate void OnHookFinished();
@@ -70,9 +70,16 @@ public class HookBehaviour : MonoBehaviour
 
     public void Return()
     {
-        hook.AddForce(distanceFromPlayer * pullPower);
+        // Calculate the direction from the hook to the player
+        Vector2 directionToPlayer = (player.position - hook.position).normalized;
 
-        if (distanceFromPlayer.magnitude < hookReturnRange)
+        hook.velocity = Vector2.zero;
+
+        // Move the hook towards the player
+        hook.position += directionToPlayer * Time.deltaTime * returnForce ;
+
+        // Check if the hook is within a certain range to the player
+        if (Vector2.Distance(player.position, hook.position) < hookReturnRange)
         {
             Disable();
         }
@@ -81,8 +88,8 @@ public class HookBehaviour : MonoBehaviour
     void Disable()
     {
         transform.parent = player.transform;
-        transform.position = player.position + (Vector2)player.transform.right * 1f;
-        transform.localRotation = Quaternion.Euler(0,0,-90);
+        transform.position = player.position + (Vector2)player.transform.right * 0.2f;
+        transform.localRotation = Quaternion.Euler(0, 0, 0);
 
         currentHookState = HookState.Idle;
         hook.bodyType = RigidbodyType2D.Kinematic;
@@ -115,7 +122,7 @@ public class HookBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if  (currentHookState == HookState.Out)
+        if (currentHookState == HookState.Out)
             currentHookState = HookState.Pull;
     }
 }
