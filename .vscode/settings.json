@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "SpeedJam_3.sln"
+    "dotnet.defaultSolution": "SpeedJam-3_Project.sln",
+    "editor.inlineSuggest.showToolbar": "always"
 }
