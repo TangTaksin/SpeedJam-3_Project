@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d20607c3b19ec6746b6bba498808de13
+guid: 125ba19c79ebad74f9c125b3557484df
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,7 +117,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HP_SpeedJam-Sheet_0
+      name: Enemies_SpeedJam-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 699610cb163f90442b47f7a43b83f77c
-      internalID: 1323443454
+      spriteID: bc3266dbaeb629d41a9549af54b7044a
+      internalID: 581040261
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HP_SpeedJam-Sheet_1
+      name: Enemies_SpeedJam-Sheet_1
       rect:
         serializedVersion: 2
         x: 32
@@ -152,8 +152,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 49284620cb48ee34986312b2ab55a91c
-      internalID: 39522599
+      spriteID: 71a918e3569e3724bb5a10f08f431b58
+      internalID: 622249745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemies_SpeedJam-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3ed6c5f6e1262e4ab7098121a6885c4
+      internalID: -143498605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemies_SpeedJam-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 169cc118dcca7f647a221ea65ffb57b0
+      internalID: -1778675282
       vertices: []
       indices: 
       edges: []
@@ -169,8 +211,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      HP_SpeedJam-Sheet_0: 1323443454
-      HP_SpeedJam-Sheet_1: 39522599
+      Enemies_SpeedJam-Sheet_0: 581040261
+      Enemies_SpeedJam-Sheet_1: 622249745
+      Enemies_SpeedJam-Sheet_2: -143498605
+      Enemies_SpeedJam-Sheet_3: -1778675282
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
