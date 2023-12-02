@@ -3,19 +3,20 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private Rigidbody2D rb;
+    private Hitpoint playerhp;
+    
     public float moveSpeed = 5f;
     public float rotationSpeed = 2f;
     public float additionalForce = 10f; // Adjust the value based on your preference
-    public float hookSpeed = 10f; // Adjust the value based on your preference
-    public float hookDelay = 1.5f; // Adjust the delay time based on your preference
 
-    private Rigidbody2D rb;
+    [SerializeField] HookBehaviour hook;
     private bool isUsingHook = false;
-    private Coroutine hookCoroutine;
-    private Vector2 hookTargetPosition; // Store the target position during the hook
 
     private void Start()
     {
+        playerhp = GetComponent<Hitpoint>();
+
         // Ensure the object has a Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
         if (rb == null)
@@ -30,6 +31,9 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 0f;
             rb.freezeRotation = true;
         }
+
+        if (hook != null)
+            hook.onHookFinished += HookReturn;
     }
 
     private void Update()
@@ -40,27 +44,15 @@ public class PlayerController : MonoBehaviour
         // Apply additional force towards the mouse position when the spacebar is pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isUsingHook)
-            {
-                // If the hook is already active, cancel it
-                StopCoroutine(hookCoroutine);
-                isUsingHook = false;
-            }
-            else
-            {
-                ApplyAdditionalForce();
-
-                // Start the hook delay after the hook is used
-                StartCoroutine(StartHookDelay());
-            }
+            ApplyAdditionalForce();
         }
 
         // Hook mechanic: Move towards the mouse position quickly when clicking after a delay
         if (Input.GetMouseButtonDown(0))
         {
-            if (!isUsingHook)
+            //if (!isUsingHook)
             {
-                hookCoroutine = StartCoroutine(DelayedApplyForceToMousePosition());
+                ShootHook();
             }
         }
     }
@@ -100,26 +92,14 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(directionToMouse * additionalForce, ForceMode2D.Impulse);
     }
 
-    IEnumerator DelayedApplyForceToMousePosition()
-    {
-        yield return null;
 
+    void ShootHook()
+    {
+        hook?.Shot();
         isUsingHook = true;
-        hookTargetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        // Calculate direction towards the mouse position
-        Vector2 directionToMouse = (hookTargetPosition - (Vector2)transform.position).normalized;
-
-        // Apply force in that direction
-        rb.AddForce(directionToMouse * hookSpeed, ForceMode2D.Impulse);
-
-        isUsingHook = false; // Reset the flag when the coroutine completes
     }
-
-    IEnumerator StartHookDelay()
+    void HookReturn()
     {
-        yield return new WaitForSeconds(hookDelay);
-        // Implement anything you want to do after the hook delay here
-        Debug.Log("Hook delay completed!");
+        isUsingHook = false;
     }
 }
