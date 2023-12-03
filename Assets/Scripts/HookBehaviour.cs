@@ -8,6 +8,7 @@ public class HookBehaviour : MonoBehaviour
     [SerializeField] float hookRange = 5f;
     [SerializeField] float hookReturnRange = 1f;
     [SerializeField] float pullPower = 1f;
+    [SerializeField] float rotationHookSpeed = 2f;
     [SerializeField] float returnForce = 1f;
     [SerializeField] LayerMask grabableLayer;
 
@@ -76,7 +77,7 @@ public class HookBehaviour : MonoBehaviour
         hook.velocity = Vector2.zero;
 
         // Move the hook towards the player
-        hook.position += directionToPlayer * Time.deltaTime * returnForce ;
+        hook.position += directionToPlayer * Time.deltaTime * returnForce;
 
         // Check if the hook is within a certain range to the player
         if (Vector2.Distance(player.position, hook.position) < hookReturnRange)
@@ -99,6 +100,7 @@ public class HookBehaviour : MonoBehaviour
 
     private void Update()
     {
+        RotateHook();
         hookLine.SetPosition(0, player.position);
         hookLine.SetPosition(1, transform.position);
 
@@ -124,5 +126,13 @@ public class HookBehaviour : MonoBehaviour
     {
         if (currentHookState == HookState.Out)
             currentHookState = HookState.Pull;
+    }
+
+    void RotateHook()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationHookSpeed * Time.deltaTime);
     }
 }
