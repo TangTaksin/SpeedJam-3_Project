@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float boostPower = 10f;
     bool isBoosting;
 
-    public delegate void OnBoostChanged(float maxvalue,float currentvalue);
+    public delegate void OnBoostChanged(float maxvalue, float currentvalue);
     public event OnBoostChanged onBoostChanged;
 
     [Header("Hook")]
@@ -78,8 +78,6 @@ public class PlayerController : MonoBehaviour
             isBoosting = false;
         }
 
-        }
-
         // Hook mechanic: Move towards the mouse position quickly when clicking after a delay
         if (Input.GetMouseButtonDown(0))
         {
@@ -87,21 +85,21 @@ public class PlayerController : MonoBehaviour
             {
                 audioManager.PlaySFX(1);
             }
-            
+
             ShootHook();
         }
     }
 
     private void FixedUpdate()
     {
-        //BoostRegen
+        // BoostRegen
 
-        //Boost
+        // Boost
         if (isBoosting)
             ApplyAdditionalForce();
         else if (boostCur <= boostMax)
         {
-            //Regen boost
+            // Regen boost
             AdjustBoostGuage(boostGainRate);
         }
 
@@ -110,7 +108,7 @@ public class PlayerController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
 
         Vector2 moveDirection = new Vector2(vertical, -horizontal).normalized;
-        
+
         MovePlayer(moveDirection);
     }
 
@@ -135,7 +133,7 @@ public class PlayerController : MonoBehaviour
         if (boostCur <= 0)
             return;
 
-        //Drain boost
+        // Drain boost
         AdjustBoostGuage(-boostDrainRate);
 
         // Apply additional force in that direction
@@ -143,20 +141,19 @@ public class PlayerController : MonoBehaviour
 
         audioManager.PlaySFX(0);
     }
+
     void AdjustBoostGuage(float amount)
     {
         boostCur += amount;
-        onBoostChanged.Invoke(boostMax, boostCur);
+        onBoostChanged?.Invoke(boostMax, boostCur);
     }
-
-
 
     void ShootHook()
     {
         hook?.Shot();
         isUsingHook = true;
-
     }
+
     void HookReturn()
     {
         isUsingHook = false;
