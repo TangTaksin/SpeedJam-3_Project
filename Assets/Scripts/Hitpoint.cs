@@ -7,7 +7,7 @@ public class Hitpoint : MonoBehaviour
     [SerializeField] int maxHitPoint = 3;
     [SerializeField] float iFrameTime = 3f;
     int hitPoint;
-    bool cantakedamage;
+    bool cantakedamage = true;
 
     public delegate void OnHealthChanged(int newHealth);
     public event OnHealthChanged onHealthChanged;
@@ -18,6 +18,7 @@ public class Hitpoint : MonoBehaviour
     private void Start()
     {
         hitPoint = maxHitPoint;
+        onHealthChanged?.Invoke(hitPoint);
     }
 
     public void ReduceHP(int amount)
@@ -25,25 +26,25 @@ public class Hitpoint : MonoBehaviour
         if (cantakedamage)
         { 
             hitPoint -= amount;
-            onHealthChanged.Invoke(hitPoint);
+            onHealthChanged?.Invoke(hitPoint);
             StartCoroutine(StartInvulTimer());
         }
     }
 
     public void SetIsInvulnerable(bool state)
     {
-        cantakedamage = state;
-        onInvulnerable.Invoke(cantakedamage);
+        cantakedamage = !state;
+        onInvulnerable?.Invoke(cantakedamage);
     }
 
-    IEnumerator StartInvulTimer()
+    public IEnumerator StartInvulTimer()
     {
         cantakedamage = false;
-        onInvulnerable.Invoke(cantakedamage);
+        onInvulnerable?.Invoke(cantakedamage);
 
         yield return new WaitForSeconds(iFrameTime);
 
         cantakedamage = true;
-        onInvulnerable.Invoke(cantakedamage);
+        onInvulnerable?.Invoke(cantakedamage);
     }
 }

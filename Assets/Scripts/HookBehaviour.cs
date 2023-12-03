@@ -20,11 +20,11 @@ public class HookBehaviour : MonoBehaviour
     Vector2 distanceFromPlayer;
     Vector2 distanceFromTarget;
 
-    enum HookState { Out, Pull, Return, Idle }
+    public enum HookState { Out, Pull, Return, Idle }
     HookState currentHookState = HookState.Idle;
 
-    public delegate void OnHookFinished();
-    public event OnHookFinished onHookFinished;
+    public delegate void OnHookStateChanged(HookState state);
+    public event OnHookStateChanged onHookStateChanged;
 
     private void Start()
     {
@@ -41,12 +41,15 @@ public class HookBehaviour : MonoBehaviour
         if (currentHookState == HookState.Out || currentHookState == HookState.Pull)
         {
             currentHookState = HookState.Return;
+            onHookStateChanged?.Invoke(currentHookState);
         }
 
         if (currentHookState == HookState.Idle)
         {
             transform.parent = null;
+
             currentHookState = HookState.Out;
+            onHookStateChanged?.Invoke(currentHookState);
 
             hookTargetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = player.position + (hookTargetPosition - player.position).normalized;
@@ -93,9 +96,9 @@ public class HookBehaviour : MonoBehaviour
         transform.localRotation = Quaternion.Euler(0, 0, 0);
 
         currentHookState = HookState.Idle;
-        hook.bodyType = RigidbodyType2D.Kinematic;
+        onHookStateChanged?.Invoke(currentHookState);
 
-        onHookFinished.Invoke();
+        hook.bodyType = RigidbodyType2D.Kinematic;
     }
 
     private void Update()
@@ -109,7 +112,10 @@ public class HookBehaviour : MonoBehaviour
         distanceFromTarget = hookTargetPosition - (Vector2)transform.position;
 
         if ((distanceFromPlayer.magnitude > hookRange || distanceFromTarget.magnitude <= .5f) && currentHookState == HookState.Out)
+        {
             currentHookState = HookState.Pull;
+            onHookStateChanged?.Invoke(currentHookState);
+        }
 
         if (currentHookState == HookState.Pull)
         {
@@ -125,7 +131,11 @@ public class HookBehaviour : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (currentHookState == HookState.Out)
+        { 
             currentHookState = HookState.Pull;
+            onHookStateChanged?.Invoke(currentHookState);
+        }
+            
     }
 
     void RotateHook()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    float score;
+    float score = 0;
 
     [SerializeField] float gameTimeLimit;
     float gameTime;
@@ -57,26 +57,21 @@ public class GameManager : MonoBehaviour
     void addScore(float amount)
     {
         score += amount * comboCount;
-        onScoreUpdated.Invoke(score, comboCount);
+        onScoreUpdated?.Invoke(score, comboCount);
     }
 
 
     private void Start()
     {
         gameTime = gameTimeLimit;
+        onScoreUpdated?.Invoke(score, comboCount);
     }
 
     private void Update()
     {
-       
 
         if (isPause)
             return;
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            onKill(100);
-        }
 
         if (isComboing)
         {
@@ -89,7 +84,7 @@ public class GameManager : MonoBehaviour
                 comboCount = 0;
             }
 
-            onComboTimerUpdated.Invoke(comboTimer, comboBeginTimer, isComboing);
+            onComboTimerUpdated?.Invoke(comboTimer, comboBeginTimer, isComboing);
         }
 
         gameTime -= Time.deltaTime;

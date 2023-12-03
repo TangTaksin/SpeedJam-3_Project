@@ -12,14 +12,16 @@ public class Combo_UI : MonoBehaviour
 
     private void Start()
     {
+        ComboTxt.gameObject.SetActive(false);
+
         GameManager.onComboTimerUpdated += ComboMeterUpdate;
         GameManager.onScoreUpdated += ScoreUpdate;
     }
 
     void ScoreUpdate(float score, float combo)
     {
-        ScoreTxt.text = score.ToString();
-        ComboTxt.text = string.Format("{0:0}x", combo);
+        ScoreTxt.text = string.Format("{0:#,0}", score);
+        ComboTxt.text = string.Format("x{0,0}", combo);
     }
 
     void ComboMeterUpdate(float comboTime, float maxTime, bool isComboing)

@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Hitpoint playerhp;
+    private AudioManager audioManager;
 
     bool isPause = false;
 
@@ -26,9 +27,15 @@ public class PlayerController : MonoBehaviour
 
     [Header("Hook")]
     [SerializeField] HookBehaviour hook;
-    private bool isUsingHook = false;
+    
+    [Header("Attack")]
+    bool canAttack;
+    [SerializeField] float attackTime = 3f;
+    [SerializeField] Animator TackleAnim;
+    [SerializeField] Animator InvulAnim;
 
-    private AudioManager audioManager;
+    public delegate void OnHealthZero();
+    public static event OnHealthZero onHealthZero;
 
     private void Start()
     {
@@ -53,7 +60,16 @@ public class PlayerController : MonoBehaviour
         }
 
         if (hook != null)
-            hook.onHookFinished += HookReturn;
+        {
+            hook.onHookStateChanged += onHookStateChanged;
+        }
+
+        playerhp = GetComponent<Hitpoint>();
+        if (playerhp != null)
+        {
+            playerhp.onInvulnerable += onInvulUpdated;
+            playerhp.onHealthChanged += onHealthChanged;
+        }
     }
 
     private void Update()
@@ -81,12 +97,9 @@ public class PlayerController : MonoBehaviour
         // Hook mechanic: Move towards the mouse position quickly when clicking after a delay
         if (Input.GetMouseButtonDown(0))
         {
-            if (!isUsingHook)
-            {
-                audioManager.PlaySFX(1);
-            }
-
+            audioManager?.PlaySFX(1);
             ShootHook();
+
         }
     }
 
@@ -107,16 +120,29 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        Vector2 moveDirection = new Vector2(vertical, -horizontal).normalized;
+        Vector2 moveDirection = new Vector2(horizontal, vertical).normalized;
 
         MovePlayer(moveDirection);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        collision.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D enemybody);
+        //apply knockback if possible
+
+
+        if (canAttack)
+        {
+            collision.gameObject.TryGetComponent<Hitpoint>(out Hitpoint enemyHp);
+            enemyHp.ReduceHP(1);
+        }
     }
 
     void MovePlayer(Vector2 moveDirection)
     {
         // Apply force in the moveDirection
         Vector2 force = moveDirection * moveSpeed * Time.fixedDeltaTime;
-        rb.AddRelativeForce(force);
+        rb.AddForce(force);
     }
 
     void RotatePlayer()
@@ -139,7 +165,7 @@ public class PlayerController : MonoBehaviour
         // Apply additional force in that direction
         rb.AddForce(directionToMouse * boostPower);
 
-        audioManager.PlaySFX(0);
+        audioManager?.PlaySFX(0);
     }
 
     void AdjustBoostGuage(float amount)
@@ -151,12 +177,66 @@ public class PlayerController : MonoBehaviour
     void ShootHook()
     {
         hook?.Shot();
-        isUsingHook = true;
     }
 
-    void HookReturn()
+    void onHookStateChanged(HookBehaviour.HookState state)
     {
-        isUsingHook = false;
-        audioManager.PlaySFX(2);
+        switch (state)
+        {
+            case HookBehaviour.HookState.Idle:
+                break;
+
+            case HookBehaviour.HookState.Out:
+                break;
+
+            case HookBehaviour.HookState.Pull:
+                StartCoroutine(AttackFrame());
+                break;
+
+            case HookBehaviour.HookState.Return:
+                audioManager?.PlaySFX(2);
+                break;
+        }    
     }
+
+    void onHealthChanged(int health)
+    {
+
+        //game over condit.
+        if (health <= 0)
+        {
+            onHealthZero?.Invoke();
+        }
+    }
+
+    void onInvulUpdated(bool state)
+    {
+        InvulAnim.gameObject.SetActive(!state);
+    }
+
+    IEnumerator AttackFrame()
+    {
+        canAttack = true;
+        playerhp?.SetIsInvulnerable(true);
+
+        TackleAnim.gameObject?.SetActive(true);
+
+        yield return new WaitForSeconds(attackTime);
+
+        TackleAnim?.SetTrigger("End");
+
+        yield return new WaitForSeconds(.3f);
+
+        canAttack = false ;
+        playerhp?.SetIsInvulnerable(false);
+        TackleAnim.gameObject?.SetActive(false);
+    }
+
+    void ResetAttackState()
+    {
+        canAttack = false;
+        playerhp?.SetIsInvulnerable(false);
+        TackleAnim.gameObject?.SetActive(false);
+    }
+
 }
