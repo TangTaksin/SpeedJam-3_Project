@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Hitpoint playerhp;
-    
+
     public float moveSpeed = 5f;
     public float rotationSpeed = 2f;
     public float additionalForce = 10f; // Adjust the value based on your preference
@@ -13,8 +13,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] HookBehaviour hook;
     private bool isUsingHook = false;
 
+    private AudioManager audioManager;
+
     private void Start()
     {
+        audioManager = FindAnyObjectByType<AudioManager>();
         playerhp = GetComponent<Hitpoint>();
 
         // Ensure the object has a Rigidbody2D component
@@ -45,15 +48,18 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ApplyAdditionalForce();
+            audioManager.PlaySFX(0);
         }
 
         // Hook mechanic: Move towards the mouse position quickly when clicking after a delay
         if (Input.GetMouseButtonDown(0))
         {
-            //if (!isUsingHook)
+            if (!isUsingHook)
             {
-                ShootHook();
+                audioManager.PlaySFX(1);
             }
+            
+            ShootHook();
         }
     }
 
@@ -97,9 +103,11 @@ public class PlayerController : MonoBehaviour
     {
         hook?.Shot();
         isUsingHook = true;
+
     }
     void HookReturn()
     {
         isUsingHook = false;
+        audioManager.PlaySFX(2);
     }
 }
