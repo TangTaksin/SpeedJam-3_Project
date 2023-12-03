@@ -27,6 +27,13 @@ public class OptionSetting : MonoBehaviour
 
     }
 
+    public void ClosePanel()
+    {
+        optionPanel.SetActive(!optionPanel.activeSelf);
+        Time.timeScale =  1f;
+
+    }
+
     public void BackToMenu()
     {
 
