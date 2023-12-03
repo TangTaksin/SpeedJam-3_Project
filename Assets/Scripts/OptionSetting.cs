@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OptionSetting : MonoBehaviour
 {
     [SerializeField] private GameObject optionPanel;
+    [SerializeField] private GameObject creditsPanel;
+    [SerializeField] private GameObject startPanel;
 
     private void Start()
     {
         optionPanel.SetActive(false);
+        creditsPanel.SetActive(false);
     }
 
     private void Update()
     {
         TogglePanel();
-
     }
 
     private void TogglePanel()
@@ -24,7 +27,12 @@ public class OptionSetting : MonoBehaviour
             optionPanel.SetActive(!optionPanel.activeSelf);
             Time.timeScale = optionPanel.activeSelf ? 0f : 1f; //// Pause and Resume the game
         }
+    }
 
+    public void PlayGame()
+    {
+        //Load New Game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void ClosePanel()
@@ -36,6 +44,15 @@ public class OptionSetting : MonoBehaviour
 
     public void BackToMenu()
     {
+        creditsPanel.SetActive(false);
+        startPanel.SetActive(true);
+
+    }
+
+    public void OpenCredits()
+    {
+        creditsPanel.SetActive(true);
+        startPanel.SetActive(false);
 
     }
 }
