@@ -28,8 +28,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] HookBehaviour hook;
     private bool isUsingHook = false;
 
+    private AudioManager audioManager;
+
     private void Start()
     {
+        audioManager = FindAnyObjectByType<AudioManager>();
         playerhp = GetComponent<Hitpoint>();
 
         boostCur = boostMax;
@@ -75,13 +78,17 @@ public class PlayerController : MonoBehaviour
             isBoosting = false;
         }
 
+        }
+
         // Hook mechanic: Move towards the mouse position quickly when clicking after a delay
         if (Input.GetMouseButtonDown(0))
         {
-            //if (!isUsingHook)
+            if (!isUsingHook)
             {
-                ShootHook();
+                audioManager.PlaySFX(1);
             }
+            
+            ShootHook();
         }
     }
 
@@ -133,6 +140,8 @@ public class PlayerController : MonoBehaviour
 
         // Apply additional force in that direction
         rb.AddForce(directionToMouse * boostPower);
+
+        audioManager.PlaySFX(0);
     }
     void AdjustBoostGuage(float amount)
     {
@@ -146,9 +155,11 @@ public class PlayerController : MonoBehaviour
     {
         hook?.Shot();
         isUsingHook = true;
+
     }
     void HookReturn()
     {
         isUsingHook = false;
+        audioManager.PlaySFX(2);
     }
 }
