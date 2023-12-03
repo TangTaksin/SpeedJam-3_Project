@@ -5,17 +5,34 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Hitpoint playerhp;
-    
+
+    bool isPause = false;
+
+    [Header("Base Movement")]
     public float moveSpeed = 5f;
     public float rotationSpeed = 2f;
-    public float additionalForce = 10f; // Adjust the value based on your preference
+    Vector2 directionToMouse;
 
+    [Header("Boost")]
+    [SerializeField] float boostMax = 100f;
+    [SerializeField] float boostDrainRate = 1;
+    [SerializeField] float boostGainRate = .5f;
+    float boostCur;
+    [SerializeField] float boostPower = 10f;
+    bool isBoosting;
+
+    public delegate void OnBoostChanged(float maxvalue,float currentvalue);
+    public event OnBoostChanged onBoostChanged;
+
+    [Header("Hook")]
     [SerializeField] HookBehaviour hook;
     private bool isUsingHook = false;
 
     private void Start()
     {
         playerhp = GetComponent<Hitpoint>();
+
+        boostCur = boostMax;
 
         // Ensure the object has a Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
@@ -38,13 +55,24 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (isPause)
+            return;
+
+        //calculate direction toward mouse
+        directionToMouse = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position);
+        directionToMouse.Normalize();
+
         // Player rotation
         RotatePlayer();
 
         // Apply additional force towards the mouse position when the spacebar is pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ApplyAdditionalForce();
+            isBoosting = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            isBoosting = false;
         }
 
         // Hook mechanic: Move towards the mouse position quickly when clicking after a delay
@@ -59,11 +87,23 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //BoostRegen
+
+        //Boost
+        if (isBoosting)
+            ApplyAdditionalForce();
+        else if (boostCur <= boostMax)
+        {
+            //Regen boost
+            AdjustBoostGuage(boostGainRate);
+        }
+
         // Player movement
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        Vector2 moveDirection = new Vector2(horizontal, vertical).normalized;
+        Vector2 moveDirection = new Vector2(vertical, -horizontal).normalized;
+        
         MovePlayer(moveDirection);
     }
 
@@ -71,7 +111,7 @@ public class PlayerController : MonoBehaviour
     {
         // Apply force in the moveDirection
         Vector2 force = moveDirection * moveSpeed * Time.fixedDeltaTime;
-        rb.AddForce(force);
+        rb.AddRelativeForce(force);
     }
 
     void RotatePlayer()
@@ -85,12 +125,21 @@ public class PlayerController : MonoBehaviour
 
     void ApplyAdditionalForce()
     {
-        // Calculate direction towards the mouse position
-        Vector2 directionToMouse = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
+        if (boostCur <= 0)
+            return;
+
+        //Drain boost
+        AdjustBoostGuage(-boostDrainRate);
 
         // Apply additional force in that direction
-        rb.AddForce(directionToMouse * additionalForce, ForceMode2D.Impulse);
+        rb.AddForce(directionToMouse * boostPower);
     }
+    void AdjustBoostGuage(float amount)
+    {
+        boostCur += amount;
+        onBoostChanged.Invoke(boostMax, boostCur);
+    }
+
 
 
     void ShootHook()
