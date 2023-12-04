@@ -695,8 +695,8 @@ MonoBehaviour:
   hookRange: 5
   hookReturnRange: 1
   pullPower: 2
-  rotationHookSpeed: 2
-  returnForce: 12
+  rotationHookSpeed: 6
+  returnForce: 20
   PullAnim: {fileID: 1268341480932787942}
 --- !u!1 &7839230915192497181
 GameObject:

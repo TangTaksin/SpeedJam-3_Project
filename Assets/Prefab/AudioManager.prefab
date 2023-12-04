@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 308221501188075531}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 308221501227682811}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &308221501188075530
 AudioSource:
@@ -152,6 +152,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 308221501227682813}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.454149, y: -4.2971725, z: -0.19741176}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -160,7 +161,6 @@ Transform:
   - {fileID: 308221501188075529}
   - {fileID: 308221502476752288}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &308221501227682812
 MonoBehaviour:
@@ -184,8 +184,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 76e6ee0b097e4404ab64803b8d27c2b2, type: 3}
   sfxClips:
   - {fileID: 8300000, guid: 47c5372c3782e494c92bc5bfdde38437, type: 3}
-  - {fileID: 8300000, guid: 99e3b96b0f8f5ff41b5fd01e05bff763, type: 3}
   - {fileID: 8300000, guid: fe77b4c23fd10f343b5cd52ed3540031, type: 3}
+  - {fileID: 8300000, guid: 99e3b96b0f8f5ff41b5fd01e05bff763, type: 3}
   - {fileID: 8300000, guid: 24560d93d54a44048914479fb6b2212c, type: 3}
   - {fileID: 8300000, guid: 285ec03d04952044dabb8d5315ceb828, type: 3}
 --- !u!1 &308221502476752290
@@ -212,13 +212,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 308221502476752290}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 308221501227682811}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &308221502476752289
 AudioSource:

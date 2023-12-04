@@ -27,12 +27,13 @@ public class AudioManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            InitializeSFXSources(3);
+            InitializeSFXSources(2);
             SetSliderListeners();
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
         SingletonCheck();
     }
@@ -60,6 +61,7 @@ public class AudioManager : MonoBehaviour
             {
                 availableSource.clip = sfxClips[index];
                 availableSource.Play();
+                StartCoroutine(WaitForSFXToFinish(availableSource));
             }
         }
         else
@@ -96,14 +98,13 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource GetAvailableSFXSource()
     {
-        foreach (var sfxSource in sfxSources)
-        {
-            if (!sfxSource.isPlaying)
-            {
-                return sfxSource;
-            }
-        }
-        return null;
+        return sfxSources.Find(s => !s.isPlaying);
+    }
+
+    private IEnumerator WaitForSFXToFinish(AudioSource source)
+    {
+        yield return new WaitForSeconds(source.clip.length);
+        source.Stop();
     }
 
     #endregion

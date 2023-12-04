@@ -453,10 +453,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 308221501227682811, guid: c43c2741547b13a42bc1acfb0db40aab, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 308221501227682811, guid: c43c2741547b13a42bc1acfb0db40aab, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -712,7 +708,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.03125
+  orthographic size: 6.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -881,6 +877,7 @@ GameObject:
   - component: {fileID: 1167114486}
   - component: {fileID: 1167114485}
   - component: {fileID: 1167114484}
+  - component: {fileID: 1167114487}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -958,6 +955,21 @@ Transform:
   - {fileID: 502612881}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1167114487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167114483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 882fd748511502e47939d830e0dacaf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 0}
+  spawnInterval: 2
+  spawnRadius: 5
 --- !u!1 &1213863400
 GameObject:
   m_ObjectHideFlags: 0

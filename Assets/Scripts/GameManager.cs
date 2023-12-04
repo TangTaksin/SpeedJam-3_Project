@@ -100,7 +100,14 @@ public class GameManager : MonoBehaviour
         {
             onGameEnded?.Invoke(score, highestCombo);
             gameTime = 0;
+            StopSpawning();
+
         }
+    }
+
+    public void StopSpawning()
+    {
+        isPause = true;
     }
 
 }

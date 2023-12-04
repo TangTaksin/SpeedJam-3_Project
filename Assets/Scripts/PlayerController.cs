@@ -199,7 +199,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case HookBehaviour.HookState.Return:
-                audioManager?.PlaySFX(2);
+                audioManager?.PlaySFX(3);
                 break;
         }    
     }
