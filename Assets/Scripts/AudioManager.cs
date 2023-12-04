@@ -18,15 +18,23 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Clips")]
     [SerializeField] private AudioClip[] musicClips;
     [SerializeField] private AudioClip[] sfxClips;
-    
+
     public static AudioManager Instance;
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            InitializeSFXSources(3);
+            SetSliderListeners();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         SingletonCheck();
-        DontDestroyOnLoad(gameObject);
-        InitializeSFXSources(3); // Adjust the number based on your needs
-        SetSliderListeners();
     }
 
     private void Start()
@@ -137,11 +145,7 @@ public class AudioManager : MonoBehaviour
 
     private void SingletonCheck()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
+        if (Instance != this)
         {
             Destroy(gameObject);
         }

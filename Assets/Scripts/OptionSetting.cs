@@ -35,7 +35,7 @@ public class OptionSetting : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    public void ClosePanel()
+    public void CloseOptionPanel()
     {
         optionPanel.SetActive(!optionPanel.activeSelf);
         Time.timeScale =  1f;
@@ -44,6 +44,7 @@ public class OptionSetting : MonoBehaviour
 
     public void BackToMenu()
     {
+        optionPanel.SetActive(false);
         creditsPanel.SetActive(false);
         startPanel.SetActive(true);
 
@@ -54,5 +55,11 @@ public class OptionSetting : MonoBehaviour
         creditsPanel.SetActive(true);
         startPanel.SetActive(false);
 
+    }
+
+    public void ShowOptionPanel()
+    {
+        optionPanel.SetActive(true);
+        creditsPanel.SetActive(false);
     }
 }
