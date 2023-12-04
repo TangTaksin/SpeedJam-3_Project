@@ -9,6 +9,11 @@ public class ScoreManager : MonoBehaviour
 
     public UnityEvent<string, int> submitScoreEvent;
 
+    private void Start()
+    {
+        GameManager.onGameEnded += GetScore;
+    }
+
     public void SubmitScore()
     {
         if (int.TryParse(bestScore.text, out int score))
@@ -20,5 +25,12 @@ public class ScoreManager : MonoBehaviour
         {
             Debug.LogError("Invalid score format. Unable to parse the score.");
         }
+    }
+
+    public void GetScore(float score, float highcombo)
+    {
+        bestScore.text = score.ToString();
+        Debug.Log("Get Score" + score);
+
     }
 }

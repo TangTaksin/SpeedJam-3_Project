@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     float score = 0;
+    [SerializeField] private GameObject leaderboardPanel;
+    [SerializeField] private GameObject asdfasdf;
 
     [SerializeField] float gameTimeLimit;
     float gameTime;
@@ -74,6 +76,7 @@ public class GameManager : MonoBehaviour
         //subsribe to enemy hit event
         Enemy.onHit += onHit;
         Enemy.onKill += onKill;
+        PlayerController.onHealthZero += StopSpawning;
     }
 
     private void Update()
@@ -114,7 +117,12 @@ public class GameManager : MonoBehaviour
 
     public void StopSpawning()
     {
+        Time.timeScale = 0;
         isPause = true;
+        onGameEnded?.Invoke(score, highestCombo);
+        Debug.Log("Die");
+        leaderboardPanel.SetActive(true);
+        asdfasdf.SetActive(true);
     }
 
 }

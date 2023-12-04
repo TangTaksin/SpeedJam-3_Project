@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHitPoint: 1
-  iFrameTime: 3
+  iFrameTime: 0.1
   invulAnim: {fileID: 6864874035537986006}
 --- !u!114 &8885552972880611170
 MonoBehaviour:
@@ -97,7 +97,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   hitScore: 200
   killScore: 500
-  knockbackForce: 10
+  knockbackForce: 4
   Explosion: {fileID: 4523376034937134956}
   movementSpeed: 25
   detectionRange: 5
@@ -139,9 +139,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 281643021
+  m_SortingLayer: 2
+  m_SortingOrder: 2
   m_Sprite: {fileID: 622249745, guid: 125ba19c79ebad74f9c125b3557484df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

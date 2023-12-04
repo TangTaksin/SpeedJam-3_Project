@@ -9,6 +9,8 @@ public class LeaderboardManager : MonoBehaviour
     [SerializeField] private List<TextMeshProUGUI> names;
     [SerializeField] private List<TextMeshProUGUI> scores;
     [SerializeField] private TMP_InputField _usernameInput;
+    
+
 
     private void Start()
     {
@@ -23,7 +25,7 @@ public class LeaderboardManager : MonoBehaviour
         Leaderboards.GravitonGrapplerLeaderboard.GetEntries(entries =>
         {
             Debug.Log($"Retrieved {entries.Length} entries from the leaderboard.");
-            
+
             int loopLength = Mathf.Min(entries.Length, names.Count);
             for (int i = 0; i < loopLength; i++)
             {

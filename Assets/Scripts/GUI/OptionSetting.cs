@@ -39,6 +39,7 @@ public class OptionSetting : MonoBehaviour
 
     public void PlayerAgain()
     {
+        Time.timeScale = 1f;
         leaderboardPanel.SetActive(false);
         inputPlayer.SetActive(false);
         //Load New Game
