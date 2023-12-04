@@ -10,7 +10,7 @@ public class Hitpoint : MonoBehaviour
     bool isInvulnerable = false;
     [SerializeField] Animator invulAnim;
 
-    public delegate void OnHealthChanged(int newHealth);
+    public delegate void OnHealthChanged(int newHealth, int maxHealth);
     public event OnHealthChanged onHealthChanged;
 
     public delegate void OnInvulnerable(bool isInvul);
@@ -19,7 +19,7 @@ public class Hitpoint : MonoBehaviour
     private void Start()
     {
         hitPoint = maxHitPoint;
-        onHealthChanged?.Invoke(hitPoint);
+        onHealthChanged?.Invoke(hitPoint, maxHitPoint);
     }
 
     public void ReduceHP(int amount)
@@ -27,7 +27,7 @@ public class Hitpoint : MonoBehaviour
         if (!isInvulnerable)
         { 
             hitPoint -= amount;
-            onHealthChanged?.Invoke(hitPoint);
+            onHealthChanged?.Invoke(hitPoint, maxHitPoint);
             StartCoroutine(StartInvulTimer());
         }
     }

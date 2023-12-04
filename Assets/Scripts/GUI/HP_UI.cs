@@ -14,7 +14,7 @@ public class HP_UI : MonoBehaviour
             playerHp.onHealthChanged += UpdateUI;
     }
 
-    void UpdateUI(int hp)
+    void UpdateUI(int hp, int max)
     {
         for (int i = 0; i < healthIcons.Length; i++)
         {

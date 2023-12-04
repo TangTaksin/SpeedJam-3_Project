@@ -138,8 +138,6 @@ public class PlayerController : MonoBehaviour
         {
             collision.gameObject.TryGetComponent<Hitpoint>(out Hitpoint enemyHp);
             enemyHp.ReduceHP(1);
-
-
         }
     }
 
@@ -189,6 +187,7 @@ public class PlayerController : MonoBehaviour
         switch (state)
         {
             case HookBehaviour.HookState.Idle:
+                boostCur += boostMax * 0.2f;
                 break;
 
             case HookBehaviour.HookState.Out:
@@ -204,7 +203,7 @@ public class PlayerController : MonoBehaviour
         }    
     }
 
-    void onHealthChanged(int health)
+    void onHealthChanged(int health, int maxHitPoint)
     {
 
         //game over condit.

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -42,6 +43,8 @@ public class GameManager : MonoBehaviour
 
     void onKill(float score)
     {
+        addScore(score);
+
         //increase combo count by 1 if it's less than combo limit
         if (comboCount < comboLimit)
             comboCount++;
@@ -51,7 +54,7 @@ public class GameManager : MonoBehaviour
         comboTimer = comboBeginTimer;
 
         //add score
-        addScore(score);
+        
     }
 
     void addScore(float amount)
@@ -75,6 +78,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 
         if (isPause)
             return;
