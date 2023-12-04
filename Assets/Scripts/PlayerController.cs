@@ -31,8 +31,9 @@ public class PlayerController : MonoBehaviour
     [Header("Attack")]
     bool canAttack;
     [SerializeField] float attackTime = 3f;
+    [SerializeField] float knockbackForce = 10f;
+    float attackTimer;
     [SerializeField] Animator TackleAnim;
-    [SerializeField] Animator InvulAnim;
 
     public delegate void OnHealthZero();
     public static event OnHealthZero onHealthZero;
@@ -67,7 +68,6 @@ public class PlayerController : MonoBehaviour
         playerhp = GetComponent<Hitpoint>();
         if (playerhp != null)
         {
-            playerhp.onInvulnerable += onInvulUpdated;
             playerhp.onHealthChanged += onHealthChanged;
         }
     }
@@ -76,6 +76,8 @@ public class PlayerController : MonoBehaviour
     {
         if (isPause)
             return;
+
+        AttackTimerUpdate();
 
         //calculate direction toward mouse
         directionToMouse = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position);
@@ -105,8 +107,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // BoostRegen
-
         // Boost
         if (isBoosting)
             ApplyAdditionalForce();
@@ -129,12 +129,17 @@ public class PlayerController : MonoBehaviour
     {
         collision.gameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D enemybody);
         //apply knockback if possible
+        var deflectDirection = collision.transform.position - transform.position;
+        deflectDirection.Normalize();
 
+        enemybody.AddForce(deflectDirection * knockbackForce, ForceMode2D.Impulse);
 
         if (canAttack)
         {
             collision.gameObject.TryGetComponent<Hitpoint>(out Hitpoint enemyHp);
             enemyHp.ReduceHP(1);
+
+
         }
     }
 
@@ -190,7 +195,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case HookBehaviour.HookState.Pull:
-                StartCoroutine(AttackFrame());
+                EnterAttackState();
                 break;
 
             case HookBehaviour.HookState.Return:
@@ -209,34 +214,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void onInvulUpdated(bool state)
+    void EnterAttackState()
     {
-        InvulAnim.gameObject.SetActive(!state);
-    }
+        attackTimer = attackTime;
 
-    IEnumerator AttackFrame()
-    {
-        canAttack = true;
         playerhp?.SetIsInvulnerable(true);
-
         TackleAnim.gameObject?.SetActive(true);
 
-        yield return new WaitForSeconds(attackTime);
-
-        TackleAnim?.SetTrigger("End");
-
-        yield return new WaitForSeconds(.3f);
-
-        canAttack = false ;
-        playerhp?.SetIsInvulnerable(false);
-        TackleAnim.gameObject?.SetActive(false);
+        canAttack = true;
     }
 
-    void ResetAttackState()
+    void AttackTimerUpdate()
     {
-        canAttack = false;
-        playerhp?.SetIsInvulnerable(false);
-        TackleAnim.gameObject?.SetActive(false);
-    }
+        if (canAttack)
+        {
+            attackTimer -= Time.deltaTime;
 
+            //Exit attack state if time ran out
+            if (attackTimer <= 0)
+            {
+                canAttack = false;
+                playerhp?.SetIsInvulnerable(false);
+                TackleAnim.gameObject?.SetActive(false);
+            }
+        }
+    }
 }

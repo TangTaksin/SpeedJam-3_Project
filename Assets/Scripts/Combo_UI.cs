@@ -12,7 +12,7 @@ public class Combo_UI : MonoBehaviour
 
     private void Start()
     {
-        ComboTxt.gameObject.SetActive(false);
+        ComboGuage.gameObject.SetActive(false);
 
         GameManager.onComboTimerUpdated += ComboMeterUpdate;
         GameManager.onScoreUpdated += ScoreUpdate;
@@ -26,7 +26,7 @@ public class Combo_UI : MonoBehaviour
 
     void ComboMeterUpdate(float comboTime, float maxTime, bool isComboing)
     {
-        ComboTxt.gameObject.SetActive(isComboing);
+        ComboGuage?.gameObject.SetActive(isComboing);
 
         ComboGuage.value = comboTime/ maxTime;
     }

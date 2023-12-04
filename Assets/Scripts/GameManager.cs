@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     float gameTime;
 
     [SerializeField] int comboLimit = 999;
-    int comboCount;
+    int comboCount = 1;
     int highestCombo;
 
     [SerializeField] float comboBeginTimer;
@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour
 
     void addScore(float amount)
     {
+        print("score added");
+
         score += amount * comboCount;
         onScoreUpdated?.Invoke(score, comboCount);
     }
@@ -65,6 +67,10 @@ public class GameManager : MonoBehaviour
     {
         gameTime = gameTimeLimit;
         onScoreUpdated?.Invoke(score, comboCount);
+
+        //subsribe to enemy hit event
+        Enemy.onHit += onHit;
+        Enemy.onKill += onKill;
     }
 
     private void Update()
@@ -81,7 +87,8 @@ public class GameManager : MonoBehaviour
             {
                 isComboing = false;
                 highestCombo = comboCount;
-                comboCount = 0;
+                comboCount = 1;
+                onScoreUpdated?.Invoke(score, comboCount);
             }
 
             onComboTimerUpdated?.Invoke(comboTimer, comboBeginTimer, isComboing);
@@ -91,7 +98,7 @@ public class GameManager : MonoBehaviour
         onGameTimerUpdated(gameTime);
         if (gameTime <= 0)
         {
-            onGameEnded.Invoke(score, highestCombo);
+            onGameEnded?.Invoke(score, highestCombo);
             gameTime = 0;
         }
     }

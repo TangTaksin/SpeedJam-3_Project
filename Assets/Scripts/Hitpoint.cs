@@ -7,7 +7,8 @@ public class Hitpoint : MonoBehaviour
     [SerializeField] int maxHitPoint = 3;
     [SerializeField] float iFrameTime = 3f;
     int hitPoint;
-    bool cantakedamage = true;
+    bool isInvulnerable = false;
+    [SerializeField] Animator invulAnim;
 
     public delegate void OnHealthChanged(int newHealth);
     public event OnHealthChanged onHealthChanged;
@@ -23,7 +24,7 @@ public class Hitpoint : MonoBehaviour
 
     public void ReduceHP(int amount)
     {
-        if (cantakedamage)
+        if (!isInvulnerable)
         { 
             hitPoint -= amount;
             onHealthChanged?.Invoke(hitPoint);
@@ -33,18 +34,17 @@ public class Hitpoint : MonoBehaviour
 
     public void SetIsInvulnerable(bool state)
     {
-        cantakedamage = !state;
-        onInvulnerable?.Invoke(cantakedamage);
+        isInvulnerable = state;
+        invulAnim?.gameObject.SetActive(isInvulnerable);
+        onInvulnerable?.Invoke(isInvulnerable);
     }
 
     public IEnumerator StartInvulTimer()
     {
-        cantakedamage = false;
-        onInvulnerable?.Invoke(cantakedamage);
+        SetIsInvulnerable(true);
 
         yield return new WaitForSeconds(iFrameTime);
 
-        cantakedamage = true;
-        onInvulnerable?.Invoke(cantakedamage);
+        SetIsInvulnerable(false);
     }
 }

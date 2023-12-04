@@ -10,7 +10,7 @@ public class HookBehaviour : MonoBehaviour
     [SerializeField] float pullPower = 1f;
     [SerializeField] float rotationHookSpeed = 2f;
     [SerializeField] float returnForce = 1f;
-    [SerializeField] LayerMask grabableLayer;
+    [SerializeField] Animator PullAnim;
 
     Rigidbody2D player;
     Rigidbody2D hook;
@@ -41,6 +41,7 @@ public class HookBehaviour : MonoBehaviour
         if (currentHookState == HookState.Out || currentHookState == HookState.Pull)
         {
             currentHookState = HookState.Return;
+            PullAnim?.gameObject.SetActive(false);
             onHookStateChanged?.Invoke(currentHookState);
         }
 
@@ -91,6 +92,8 @@ public class HookBehaviour : MonoBehaviour
 
     void Disable()
     {
+        PullAnim?.gameObject.SetActive(false);
+
         transform.parent = player.transform;
         transform.position = player.position + (Vector2)player.transform.right * 0.2f;
         transform.localRotation = Quaternion.Euler(0, 0, 0);
@@ -114,6 +117,7 @@ public class HookBehaviour : MonoBehaviour
         if ((distanceFromPlayer.magnitude > hookRange || distanceFromTarget.magnitude <= .5f) && currentHookState == HookState.Out)
         {
             currentHookState = HookState.Pull;
+            PullAnim?.gameObject.SetActive(true);
             onHookStateChanged?.Invoke(currentHookState);
         }
 
@@ -133,6 +137,7 @@ public class HookBehaviour : MonoBehaviour
         if (currentHookState == HookState.Out)
         { 
             currentHookState = HookState.Pull;
+            PullAnim?.gameObject.SetActive(true);
             onHookStateChanged?.Invoke(currentHookState);
         }
             

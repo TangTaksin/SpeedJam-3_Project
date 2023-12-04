@@ -8,9 +8,12 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] float hitScore = 100;
     [SerializeField] float killScore = 200;
+    [SerializeField] float knockbackForce = 10;
+    [SerializeField] ParticleSystem Explosion;
 
     public delegate void OnHit(float score);
     public static event OnHit onHit;
+    public static event OnHit onKill;
 
     private void Start()
     {
@@ -26,10 +29,26 @@ public class Enemy : MonoBehaviour
     {
         if (health <= 0)
         {
-            onHit?.Invoke(killScore);
+            onKill?.Invoke(killScore);
+            StartCoroutine(onDeath());
             return;
         }
         onHit?.Invoke(hitScore);
+    }
+
+    public void reactivate()
+    {
+        gameObject.SetActive(true);
+    }
+
+    IEnumerator onDeath()
+    {
+        Explosion?.gameObject.SetActive(true);
+        Explosion?.Play();
+        yield return new WaitForSeconds(.5f);
+        Explosion?.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -42,6 +61,10 @@ public class Enemy : MonoBehaviour
             playerHp.ReduceHP(1);
 
             //apply knockback if possible
+            var deflectDirection = collision.transform.position - transform.position;
+            deflectDirection.Normalize();
+
+            playerbody.AddForce(deflectDirection * knockbackForce, ForceMode2D.Impulse);
         }
     }
 }
