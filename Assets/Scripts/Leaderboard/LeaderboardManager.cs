@@ -20,7 +20,7 @@ public class LeaderboardManager : MonoBehaviour
         // Q: How do I reference my own leaderboard?
         // A: Leaderboards.<NameOfTheLeaderboard>
 
-        Leaderboards.GravitonGrappler_SpeedJam.GetEntries(entries =>
+        Leaderboards.GravitonGrapplerLeaderboard.GetEntries(entries =>
         {
             Debug.Log($"Retrieved {entries.Length} entries from the leaderboard.");
             
@@ -37,7 +37,7 @@ public class LeaderboardManager : MonoBehaviour
 
     public void UploadEntry(string username, int score)
     {
-        Leaderboards.GravitonGrappler_SpeedJam.UploadNewEntry(username, score, entries =>
+        Leaderboards.GravitonGrapplerLeaderboard.UploadNewEntry(username, score, entries =>
         {
             if (entries)
             {
