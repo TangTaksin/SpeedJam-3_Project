@@ -8,6 +8,8 @@ public class OptionSetting : MonoBehaviour
     [SerializeField] private GameObject optionPanel;
     [SerializeField] private GameObject creditsPanel;
     [SerializeField] private GameObject startPanel;
+    [SerializeField] private GameObject leaderboardPanel;
+    [SerializeField] private GameObject inputPlayer;
 
     private void Start()
     {
@@ -33,6 +35,14 @@ public class OptionSetting : MonoBehaviour
     {
         //Load New Game
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void PlayerAgain()
+    {
+        leaderboardPanel.SetActive(false);
+        inputPlayer.SetActive(false);
+        //Load New Game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void CloseOptionPanel()
