@@ -54,9 +54,6 @@ public class GameManager : MonoBehaviour
         //start combo timer
         isComboing = true;
         comboTimer = comboBeginTimer;
-
-        //add score
-        
     }
 
     void addScore(float amount)
@@ -67,13 +64,19 @@ public class GameManager : MonoBehaviour
         onScoreUpdated?.Invoke(score, comboCount);
     }
 
+    private void OnDisable()
+    {
+        Enemy.onHit -= onHit;
+        Enemy.onKill -= onKill;
+        PlayerController.onHealthZero -= StopSpawning;
+    }
 
     private void Start()
     {
         gameTime = gameTimeLimit;
         onScoreUpdated?.Invoke(score, comboCount);
 
-        //subsribe to enemy hit event
+        //subscribe to enemy hit event
         Enemy.onHit += onHit;
         Enemy.onKill += onKill;
         PlayerController.onHealthZero += StopSpawning;
@@ -81,8 +84,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
+            Time.timeScale = 1;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
@@ -105,13 +109,13 @@ public class GameManager : MonoBehaviour
         }
 
         gameTime -= Time.deltaTime;
-        onGameTimerUpdated(gameTime);
+        onGameTimerUpdated?.Invoke(gameTime);
+
         if (gameTime <= 0)
         {
             onGameEnded?.Invoke(score, highestCombo);
             gameTime = 0;
             StopSpawning();
-
         }
     }
 
@@ -121,8 +125,11 @@ public class GameManager : MonoBehaviour
         isPause = true;
         onGameEnded?.Invoke(score, highestCombo);
         Debug.Log("Die");
-        leaderboardPanel.SetActive(true);
-        asdfasdf.SetActive(true);
-    }
 
+        if (leaderboardPanel != null)
+            leaderboardPanel.SetActive(true);
+
+        if (asdfasdf != null)
+            asdfasdf.SetActive(true);
+    }
 }

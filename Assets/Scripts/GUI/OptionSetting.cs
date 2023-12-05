@@ -17,10 +17,6 @@ public class OptionSetting : MonoBehaviour
         creditsPanel.SetActive(false);
     }
 
-    private void Update()
-    {
-        TogglePanel();
-    }
 
     private void TogglePanel()
     {
