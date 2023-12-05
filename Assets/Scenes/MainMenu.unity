@@ -2271,7 +2271,7 @@ PrefabInstance:
 
         LMC - Shot/Return Hook
 
-        R
+        Tab
         - Restart'
       objectReference: {fileID: 0}
     m_RemovedComponents: []

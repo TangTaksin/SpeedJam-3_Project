@@ -12,7 +12,10 @@ public class Combo_UI : MonoBehaviour
 
     private void Start()
     {
-        ComboGuage.gameObject.SetActive(false);
+        if (ComboGuage != null)
+        {
+            ComboGuage.gameObject.SetActive(false);
+        }
 
         GameManager.onComboTimerUpdated += ComboMeterUpdate;
         GameManager.onScoreUpdated += ScoreUpdate;
@@ -20,14 +23,19 @@ public class Combo_UI : MonoBehaviour
 
     void ScoreUpdate(float score, float combo)
     {
-        ScoreTxt.text = string.Format("{0:#,0}", score);
-        ComboTxt.text = string.Format("x{0,0}", combo);
+        if (ScoreTxt != null && ComboTxt != null)
+        {
+            ScoreTxt.text = string.Format("{0:#,0}", score);
+            ComboTxt.text = string.Format("x{0,0}", combo);
+        }
     }
 
     void ComboMeterUpdate(float comboTime, float maxTime, bool isComboing)
     {
-        ComboGuage?.gameObject.SetActive(isComboing);
-
-        ComboGuage.value = comboTime/ maxTime;
+        if (ComboGuage != null)
+        {
+            ComboGuage.gameObject.SetActive(isComboing);
+            ComboGuage.value = comboTime / maxTime;
+        }
     }
 }
