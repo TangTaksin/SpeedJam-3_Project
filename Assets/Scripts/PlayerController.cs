@@ -242,16 +242,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        if (hook != null)
-        {
-            hook.onHookStateChanged -= onHookStateChanged;
-        }
+    // private void OnDestroy()
+    // {
+    //     if (hook != null)
+    //     {
+    //         hook.onHookStateChanged -= onHookStateChanged;
+    //     }
 
-        if (playerhp != null)
-        {
-            playerhp.onHealthChanged -= onHealthChanged;
-        }
-    }
+    //     if (playerhp != null)
+    //     {
+    //         playerhp.onHealthChanged -= onHealthChanged;
+    //     }
+    // }
 }

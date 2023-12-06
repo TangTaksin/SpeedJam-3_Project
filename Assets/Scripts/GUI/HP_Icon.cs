@@ -11,7 +11,7 @@ public class HP_Icon : MonoBehaviour
     Image _thisIcon;
     bool _isOn;
 
-    private void Start()
+    private void Awake()
     {
         _thisIcon = GetComponent<Image>();
 

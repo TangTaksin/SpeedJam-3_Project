@@ -40,8 +40,10 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayDefaultMusic();
         LoadVolume();
+        PlayDefaultMusic();
+        Debug.Log("Start - Music Volume: " + musicSlider.value);
+        Debug.Log("Start - SFX Volume: " + sfxSlider.value);
     }
 
     #region Audio Control
@@ -133,8 +135,8 @@ public class AudioManager : MonoBehaviour
 
     private void LoadVolume()
     {
-        musicSlider.value = PlayerPrefs.GetFloat("musicVolume", 1f);
-        sfxSlider.value = PlayerPrefs.GetFloat("sfxVolume", 1f);
+        musicSlider.value = PlayerPrefs.GetFloat("musicVolume",musicSlider.value);
+        sfxSlider.value = PlayerPrefs.GetFloat("sfxVolume",sfxSlider.value);
 
         SetMusicVolume(musicSlider.value);
         SetSfxVolume(sfxSlider.value);
