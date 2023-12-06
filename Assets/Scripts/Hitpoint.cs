@@ -1,14 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Hitpoint : MonoBehaviour
 {
-    [SerializeField] int maxHitPoint = 3;
-    [SerializeField] float iFrameTime = 3f;
-    int hitPoint;
-    bool isInvulnerable = false;
-    [SerializeField] Animator invulAnim;
+    [SerializeField] private int maxHitPoint = 3;
+    [SerializeField] private float iFrameTime = 3f;
+    private int hitPoint;
+    private bool isInvulnerable = false;
+
+    [SerializeField] private Animator invulAnim;
 
     public delegate void OnHealthChanged(int newHealth, int maxHealth);
     public event OnHealthChanged onHealthChanged;
@@ -19,15 +19,15 @@ public class Hitpoint : MonoBehaviour
     private void Start()
     {
         hitPoint = maxHitPoint;
-        onHealthChanged?.Invoke(hitPoint, maxHitPoint);
+        UpdateHealth();
     }
 
     public void ReduceHP(int amount)
     {
         if (!isInvulnerable)
-        { 
-            hitPoint -= amount;
-            onHealthChanged?.Invoke(hitPoint, maxHitPoint);
+        {
+            hitPoint = Mathf.Max(0, hitPoint - amount);
+            UpdateHealth();
             StartCoroutine(StartInvulTimer());
         }
     }
@@ -39,12 +39,15 @@ public class Hitpoint : MonoBehaviour
         onInvulnerable?.Invoke(isInvulnerable);
     }
 
-    public IEnumerator StartInvulTimer()
+    private void UpdateHealth()
+    {
+        onHealthChanged?.Invoke(hitPoint, maxHitPoint);
+    }
+
+    private IEnumerator StartInvulTimer()
     {
         SetIsInvulnerable(true);
-
         yield return new WaitForSeconds(iFrameTime);
-
         SetIsInvulnerable(false);
     }
 }

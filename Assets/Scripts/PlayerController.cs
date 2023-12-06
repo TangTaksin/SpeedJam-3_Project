@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Hook")]
     [SerializeField] HookBehaviour hook;
-    
+
     [Header("Attack")]
     bool canAttack;
     [SerializeField] float attackTime = 3f;
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
-        playerhp = GetComponent<Hitpoint>();
+        // playerhp = GetComponent<Hitpoint>();
 
         boostCur = boostMax;
 
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         if (rb == null)
         {
-            // Add a Rigidbody2D component if it doesn't exist
+            Debug.LogWarning("Rigidbody2D component not found. Adding dynamically.");
             rb = gameObject.AddComponent<Rigidbody2D>();
         }
 
@@ -200,15 +200,18 @@ public class PlayerController : MonoBehaviour
             case HookBehaviour.HookState.Return:
                 audioManager?.PlaySFX(3);
                 break;
-        }    
+        }
     }
 
     void onHealthChanged(int health, int maxHitPoint)
     {
+        Debug.Log($"Health: {health}, Max Hitpoint: {maxHitPoint}");
 
         //game over condit.
         if (health <= 0)
         {
+
+            Debug.Log("Game Over!");
             onHealthZero?.Invoke();
         }
     }
@@ -236,6 +239,19 @@ public class PlayerController : MonoBehaviour
                 playerhp?.SetIsInvulnerable(false);
                 TackleAnim.gameObject?.SetActive(false);
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (hook != null)
+        {
+            hook.onHookStateChanged -= onHookStateChanged;
+        }
+
+        if (playerhp != null)
+        {
+            playerhp.onHealthChanged -= onHealthChanged;
         }
     }
 }

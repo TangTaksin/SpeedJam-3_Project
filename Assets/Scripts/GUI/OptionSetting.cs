@@ -10,6 +10,7 @@ public class OptionSetting : MonoBehaviour
     [SerializeField] private GameObject startPanel;
     [SerializeField] private GameObject leaderboardPanel;
     [SerializeField] private GameObject inputPlayer;
+    [SerializeField] private string nextSceneName;
 
     private void Start()
     {
@@ -30,7 +31,7 @@ public class OptionSetting : MonoBehaviour
     public void PlayGame()
     {
         //Load New Game
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(nextSceneName);
     }
 
     public void PlayerAgain()

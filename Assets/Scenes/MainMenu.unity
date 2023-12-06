@@ -380,6 +380,7 @@ MonoBehaviour:
   startPanel: {fileID: 1625285153}
   leaderboardPanel: {fileID: 1625285156}
   inputPlayer: {fileID: 1625285155}
+  nextSceneName: TestScene
 --- !u!4 &183128137
 Transform:
   m_ObjectHideFlags: 0
@@ -2173,7 +2174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4424654291769494448, guid: 95e4536d80da5b946ab02207108b37bc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4448790763565871279, guid: 95e4536d80da5b946ab02207108b37bc, type: 3}
       propertyPath: m_AnchoredPosition.y

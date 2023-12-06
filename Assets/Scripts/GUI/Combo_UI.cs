@@ -35,7 +35,8 @@ public class Combo_UI : MonoBehaviour
         if (ComboGuage != null)
         {
             ComboGuage.gameObject.SetActive(isComboing);
-            ComboGuage.value = comboTime / maxTime;
+            ComboGuage.interactable = isComboing;
+            ComboGuage.value = Mathf.Clamp01(comboTime / maxTime);
         }
     }
 }
