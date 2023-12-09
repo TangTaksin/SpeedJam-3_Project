@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     float score = 0;
     [SerializeField] private GameObject leaderboardPanel;
-    [SerializeField] private GameObject asdfasdf;
+    [SerializeField] private GameObject end_leaderboardPanel;
 
     [SerializeField] float gameTimeLimit;
     float gameTime;
@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour
         if (leaderboardPanel != null)
             leaderboardPanel.SetActive(true);
 
-        if (asdfasdf != null)
-            asdfasdf.SetActive(true);
+        if (end_leaderboardPanel != null)
+            end_leaderboardPanel.SetActive(true);
     }
 }

@@ -2026,6 +2026,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3466504993847582816, guid: 95e4536d80da5b946ab02207108b37bc, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3466504993847582818, guid: 95e4536d80da5b946ab02207108b37bc, type: 3}
       propertyPath: m_Name
       value: LeaderboardCanvas
@@ -2174,7 +2178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4424654291769494448, guid: 95e4536d80da5b946ab02207108b37bc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4448790763565871279, guid: 95e4536d80da5b946ab02207108b37bc, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2190,15 +2194,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5543439849938755685, guid: 95e4536d80da5b946ab02207108b37bc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5543439849938755685, guid: 95e4536d80da5b946ab02207108b37bc, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5543439849938755685, guid: 95e4536d80da5b946ab02207108b37bc, type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6027613394876250328, guid: 95e4536d80da5b946ab02207108b37bc, type: 3}
       propertyPath: m_LocalScale.x

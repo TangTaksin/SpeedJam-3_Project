@@ -73,11 +73,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 281643021
+  m_SortingLayer: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: d83d4df9a90e10a4e9e43e380d97201d, type: 3}
-  m_Color: {r: 0.69411767, g: 0.6039216, b: 0.5568628, a: 1}
+  m_Color: {r: 0.69411767, g: 0.6039216, b: 0.5568628, a: 0.85882354}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -338,9 +338,9 @@ MonoBehaviour:
   boostMax: 100
   boostDrainRate: 1
   boostGainRate: 0.5
-  boostPower: 20
+  boostPower: 50
   hook: {fileID: 5987074686618113066}
-  attackTime: 1
+  attackTime: 2
   knockbackForce: 10
   TackleAnim: {fileID: 1436650486}
 --- !u!61 &5987074686351410819
@@ -1044,6 +1044,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: acdbd61fb9a0b3047a97ca856b451152, type: 3}
+    - target: {fileID: 2004123052840994162, guid: 25c1b42d95ac92d40acfdab057302369, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2004123052840994162, guid: 25c1b42d95ac92d40acfdab057302369, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2004123052840994162, guid: 25c1b42d95ac92d40acfdab057302369, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 281643021
+      objectReference: {fileID: 0}
     - target: {fileID: 2004123052840994164, guid: 25c1b42d95ac92d40acfdab057302369, type: 3}
       propertyPath: m_Name
       value: Shield

@@ -565,7 +565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followSpeed: 0.1
-  _offset: {x: 0, y: 0}
+  _offset: {x: 84, y: -84}
   _boostFill: {fileID: 394044561895302923}
   _player: {fileID: 0}
 --- !u!1 &394044560783165868
@@ -1029,7 +1029,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 9999
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2d9ac3e97bbfac747862c67c28b40919, type: 2}
   m_sharedMaterial: {fileID: -3710876939108458190, guid: 2d9ac3e97bbfac747862c67c28b40919, type: 2}
